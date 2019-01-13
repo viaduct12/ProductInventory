@@ -36,7 +36,7 @@ public class InventoryTests {
         inventory.addProduct("apple", .6, 10);
         inventory.removeProduct("apple",2);
 
-        Assert.assertEquals(8,8,.000001);
+        Assert.assertEquals(8,inventory.getProduct("apple").getQuantity(),.000001);
     }
 
     @Test(expected = InsufficientInventory.class)

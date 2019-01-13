@@ -38,15 +38,17 @@ public class Inventory {
     void removeProduct(String productId, int quantity) throws InsufficientInventory {
         int index = getProductIndex(productId);
         if (index >= 0){
-            Product product = getProduct(productId);
-            int total = product.getQuantity() - quantity;
-            if(total == 0){
+            Product product = products.get(index);
+            quantity = product.getQuantity() - quantity;
+
+            if(quantity == 0){
                 products.remove(quantity);
-            }else if (total < 0){
+            }else if (quantity < 0){
                 throw new InsufficientInventory(
                         products.get(index).getQuantity(), quantity
                 );
             }
+            product.addStock(quantity - product.getQuantity());
         }else
             throw new InsufficientInventory(0, quantity);
     }
