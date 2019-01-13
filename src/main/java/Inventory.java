@@ -36,7 +36,41 @@ public class Inventory {
     }
 
     void removeProduct(String productId, int quantity) throws InsufficientInventory {
-        // you write this class
+        int index = getProductIndex(productId);
+        if (index >= 0){
+            Product product = getProduct(productId);
+            int total = product.getQuantity() - quantity;
+            if(total == 0){
+                products.remove(quantity);
+            }else if (total < 0){
+                throw new InsufficientInventory(
+                        products.get(index).getQuantity(), quantity
+                );
+            }
+        }else
+            throw new InsufficientInventory(0, quantity);
+    }
+
+    double totalInventoryValue(){
+        double sum = 0;
+        for (Product p : products) {
+            sum += (p.getPrice() * p.getQuantity());
+        }
+        return sum;
+    }
+
+    boolean inStock(String productId){
+
+        Product product = getProduct(productId);
+        if (getProduct(productId) == null){
+            return false;
+        }
+
+        if (product.getQuantity() >= 1) {
+            return true;
+        }else
+            return false;
+
     }
 
     Product getProduct(String productId) {
@@ -65,3 +99,4 @@ public class Inventory {
         System.out.println(inventory.getAllProductNames());
     }
 }
+
